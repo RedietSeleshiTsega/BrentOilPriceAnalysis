@@ -1,0 +1,35 @@
+.App {
+  text-align: center;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+h1, h2 {
+  color: #333;
+}
+
+.filter {
+  margin: 20px 0;
+}
+
+.filter label {
+  margin: 0 10px;
+}
+
+.filter input {
+  padding: 5px;
+  margin: 0 5px;
+}
+
+.change-point-details {
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+@media (max-width: 768px) {
+  .App { padding: 10px; }
+  .LineChart, .ScatterChart { width: 100% !important; }
+}
