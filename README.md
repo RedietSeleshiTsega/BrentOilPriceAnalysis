@@ -1,13 +1,27 @@
-Brent Oil Price Analysis Project
-Overview
-This project analyzes the impact of major geopolitical and economic events on Brent oil prices from 2012 to 2022. It consists of three tasks:
+# **Brent Oil Price Analysis Project**
 
-Task 1: Data Collection and Preparation - Collect and clean Brent oil price data.
-Task 2: Change Point Modeling and Insight Generation - Detect structural breaks in price trends using a Bayesian Change Point Model and associate them with key events.
-Task 3: Interactive Dashboard - Develop a web-based dashboard to visualize price trends, change points, and events interactively.
+## **Overview**
 
-The project delivers actionable insights for stakeholders (e.g., investors, policymakers, energy companies) through data analysis and an intuitive visualization tool.
-Project Structure
+This project analyzes the impact of major **geopolitical** and **economic events** on Brent oil prices from **2012 to 2022**.
+It consists of three main tasks:
+
+1. **Task 1: Data Collection and Preparation**
+
+   * Collect and clean Brent oil price data.
+2. **Task 2: Change Point Modeling and Insight Generation**
+
+   * Detect structural breaks in price trends using a **Bayesian Change Point Model** and associate them with key events.
+3. **Task 3: Interactive Dashboard**
+
+   * Develop a **web-based dashboard** to visualize price trends, change points, and events interactively.
+
+The project delivers **actionable insights** for stakeholders such as investors, policymakers, and energy companies through **data analysis** and an **intuitive visualization tool**.
+
+---
+
+## **Project Structure**
+
+```
 brent-oil-analysis/
 ├── backend/
 │   ├── app.py
@@ -27,187 +41,235 @@ brent-oil-analysis/
 │   ├── log_returns_plot.png
 │   └── change_point_trace.png
 └── README.md
+```
 
-Prerequisites
+---
 
-Python 3.x with:
-pandas, numpy, matplotlib, pymc, arviz, statsmodels, flask, flask-cors
+## **Prerequisites**
 
+### **Backend (Python 3.x)**
 
-Node.js and npm (LTS version recommended)
-Dependencies for frontend:
-recharts, axios, papaparse (optional for CSV export)
+* `pandas`
+* `numpy`
+* `matplotlib`
+* `pymc`
+* `arviz`
+* `statsmodels`
+* `flask`
+* `flask-cors`
 
+### **Frontend (Node.js & npm)**
 
-Data:
-processed_brent_data.csv: Cleaned Brent oil price data (Date, Price, Log_Returns)
-events_data.csv: Key events (Date, Event)
+* `recharts`
+* `axios`
+* `papaparse` *(optional for CSV export)*
 
+---
 
+## **Data**
 
-Setup Instructions
-Backend (Flask)
+### **1. Brent Oil Prices (`processed_brent_data.csv`)**
 
-Navigate to the backend/ directory:cd backend
+* **Source**: Historical Brent oil price data (e.g., from EIA or Alpha Vantage).
+* **Columns**:
 
+  * `Date` (datetime)
+  * `Price` (USD)
+  * `Log_Returns` (calculated)
+* **Pre-processing**: Missing value handling, datetime formatting, and numeric type enforcement.
 
-Install Python dependencies:pip install pandas numpy matplotlib pymc arviz statsmodels flask flask-cors
+### **2. Events (`events_data.csv`)**
 
+* Contains **6 key events (2014–2022)**, e.g., OPEC production cuts, Russia-Ukraine conflict.
+* **Columns**:
 
-Ensure processed_brent_data.csv and events_data.csv are in the backend/ directory.
-Run the Flask server:python app.py
+  * `Date` (datetime)
+  * `Event` (description)
+* **Example**:
 
+  ```
+  Date,Event
+  2014-11-27,OPEC refuses to cut production
+  2016-11-30,OPEC agrees to production cut
+  ```
 
-The server runs on http://localhost:5000.
-APIs: /api/prices, /api/change_point, /api/events.
+### **3. Plots** (stored in `plots/`)
 
+* `brent_price_plot.png`
+* `log_returns_plot.png`
+* `change_point_trace.png`
 
+---
 
-Frontend (React)
+## **Setup Instructions**
 
-Navigate to the frontend/ directory:cd frontend
+### **1. Backend (Flask)**
 
+```bash
+cd backend
+pip install pandas numpy matplotlib pymc arviz statsmodels flask flask-cors
+python app.py
+```
 
-Install Node.js dependencies:npm install recharts axios
+* Server runs at: **[http://localhost:5000](http://localhost:5000)**
+* **APIs**:
 
+  * `/api/prices`
+  * `/api/change_point`
+  * `/api/events`
 
-Optional: Install papaparse for CSV export:npm install papaparse
+### **2. Frontend (React)**
 
+```bash
+cd frontend
+npm install recharts axios
+# Optional for CSV export
+npm install papaparse
+npm start
+```
 
+* App runs at: **[http://localhost:3000](http://localhost:3000)**
 
+### **3. Notebooks (Data Preparation & Modeling)**
 
-Run the React app:npm start
+```bash
+cd notebooks
+jupyter notebook
+```
 
+* Run:
 
-The app runs on http://localhost:3000.
+  * `task1_data_preparation.ipynb` (Data Cleaning)
+  * `task2_change_point_modeling.ipynb` (Change Point Analysis)
 
+---
 
+## **Features**
 
-Notebooks
+### **Task 1: Data Collection and Preparation**
 
-Navigate to the notebooks/ directory:cd notebooks
+* Load raw Brent oil price data.
+* Clean data (handle missing values, datetime conversion, numeric price validation).
+* Compute **log returns**.
+* Save processed data to: `backend/processed_brent_data.csv`.
 
+### **Task 2: Change Point Modeling**
 
-Open Jupyter Notebook:jupyter notebook
+* **Exploratory Data Analysis (EDA)**:
 
+  * Augmented Dickey-Fuller (ADF) test for stationarity.
+  * Visualization of price trends and log returns.
+* **Bayesian Change Point Model (PyMC)**:
 
-Run task1_data_preparation.ipynb to clean and process Brent oil price data.
-Run task2_change_point_modeling.ipynb to perform Bayesian change point analysis.
+  * Detects structural break in log returns.
+  * **Result**: Change point detected on **2017-10-23**, indicating a shift in mean log returns (e.g., from `0.001` → `0.005`).
+* **Impact Quantification**:
 
-Data
+  * \~16.98% price increase post-change point.
+* **Events Association**:
 
-Brent Oil Prices (processed_brent_data.csv):
-Source: Historical Brent oil price data (e.g., from EIA or Alpha Vantage).
-Columns: Date (datetime), Price (USD), Log_Returns (calculated).
-Processed in Task 1 to handle missing values and ensure correct formats.
+  * Linked to OPEC production cut on **2016-11-30** (lagged effects considered).
+* Plots saved to: `plots/`.
 
+### **Task 3: Interactive Dashboard**
 
-Events (events_data.csv):
-Contains 6 key events (2014-2022), e.g., OPEC production cuts, Russia-Ukraine conflict.
-Columns: Date (datetime), Event (description).
-Example:Date,Event
-2014-11-27,OPEC refuses to cut production
-2016-11-30,OPEC agrees to production cut
-...
+* **Backend**: Flask APIs serve data and model results.
+* **Frontend (React + Recharts)**:
 
+  * **Price Chart**: Brent oil prices (line chart) with highlighted change point (orange marker).
+  * **Events Timeline**: Scatter chart with event tooltips.
+  * **Date Range Filter**: Start & end date selection.
+  * **Change Point Summary**: Text-based insights.
+* **Responsive Design** for mobile, tablet, and desktop.
 
+---
 
+## **Usage**
 
-Plots:
-Stored in plots/ (e.g., brent_price_plot.png, log_returns_plot.png, change_point_trace.png).
-
-
-
-Features
-Task 1: Data Collection and Preparation
-
-Loads raw Brent oil price data.
-Cleans data (handles missing values, converts Date to datetime, ensures Price is numeric).
-Computes log returns for modeling.
-Saves processed data to backend/processed_brent_data.csv.
-
-Task 2: Change Point Modeling
-
-Performs exploratory data analysis (EDA) with:
-Augmented Dickey-Fuller (ADF) test for stationarity.
-Visualization of price trends and log returns.
-
-
-Implements a Bayesian Change Point Model using PyMC to detect a structural break in log returns.
-Key result: Change point detected on 2017-10-23, with a shift in mean log returns (e.g., from 0.001 to 0.005).
-Associates change point with events (e.g., OPEC production cut on 2016-11-30, noting lagged effects).
-Quantifies price impact (e.g., ~16.98% price increase post-change point).
-Saves diagnostic plots to plots/.
-
-Task 3: Interactive Dashboard
-
-Backend: Flask APIs to serve price data, change point results, and events.
-Frontend: React app with Recharts for visualizations:
-Price Chart: Line chart of Brent oil prices with a highlighted change point (orange scatter).
-Events Timeline: Scatter chart of key events with tooltips showing event details.
-Date Range Filter: Input fields to filter data by start/end dates.
-Change Point Details: Text summary of change point date and mean log returns before/after.
-
-
-Responsive design for desktop, tablet, and mobile.
-
-Usage
-
-Start the Flask backend:cd backend
+```bash
+# Start Backend
+cd backend
 python app.py
 
-
-Start the React frontend:cd frontend
+# Start Frontend
+cd frontend
 npm start
+```
 
+* Open: **[http://localhost:3000](http://localhost:3000)**
+* Use the **date range filter** to explore specific periods.
+* Hover over events for details.
+* Review change point analysis below charts.
 
-Open http://localhost:3000 in a browser to access the dashboard.
-Use the date range filter to explore specific periods.
-Hover over events in the timeline to view details.
-Review change point analysis below the charts.
+---
 
-Assumptions and Limitations
+## **Assumptions & Limitations**
 
-Assumptions:
-Single change point modeled for simplicity.
-Log returns follow a normal distribution.
-Events have immediate or short-term impacts (within ±30 days).
+### **Assumptions**
 
+* Single change point modeled (for simplicity).
+* Log returns follow a **normal distribution**.
+* Events have **immediate or short-term impacts** (±30 days).
 
-Limitations:
-Correlation between change points and events does not imply causation.
-Limited to one change point; multiple breaks may exist.
-Event dataset is small (6 events); expand for better coverage.
-Excludes macroeconomic factors (e.g., GDP, exchange rates).
+### **Limitations**
 
+* Correlation does **not imply causation**.
+* Only one change point analyzed; multiple may exist.
+* Event dataset is **small (6 events)** – expanding is recommended.
+* Excludes **macroeconomic factors** (GDP, exchange rates, etc.).
 
+---
 
-Future Work
+## **Future Work**
 
-Incorporate macroeconomic data (e.g., from World Bank or FRED) as covariates.
-Use advanced models (e.g., Vector Autoregression, Markov-Switching) for dynamic analysis.
-Add real-time data integration via external APIs (e.g., Alpha Vantage).
-Enhance dashboard with event highlighting and CSV export features.
+* Add **macroeconomic data** (World Bank, FRED) as covariates.
+* Use advanced models:
 
-Deployment (Optional)
+  * **Vector Autoregression (VAR)**
+  * **Markov-Switching Models**
+* Real-time data integration via APIs (e.g., Alpha Vantage).
+* Enhance dashboard:
 
-Backend: Deploy on Heroku:cd backend
+  * **Event highlighting**
+  * **CSV export**
+
+---
+
+## **Deployment (Optional)**
+
+### **Backend (Heroku)**
+
+```bash
+cd backend
 pip freeze > requirements.txt
 echo "web: gunicorn app:app" > Procfile
 heroku create
 git push heroku main
+```
 
+### **Frontend (Netlify)**
 
-Frontend: Deploy on Netlify:cd frontend
+```bash
+cd frontend
 npm run build
+```
 
-Upload the build/ folder to Netlify.
+Upload `build/` folder to **Netlify**.
 
-Contributing
+---
 
-Expand the event dataset in events_data.csv with additional 2017-2018 events.
-Improve model robustness by detecting multiple change points.
-Add advanced visualizations (e.g., volatility plots, event impact windows).
+## **Contributing**
 
-License
-This project is for educational and professional use. Contact the project owner for licensing details.
+* Expand `events_data.csv` (e.g., 2017–2018 events).
+* Improve model robustness (detect multiple change points).
+* Add advanced visualizations (e.g., volatility plots, event impact windows).
+
+---
+
+## **License**
+
+This project is for **educational and professional use**.
+Contact the project owner for **licensing details**.
+
+
+
